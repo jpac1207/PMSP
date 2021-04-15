@@ -1,0 +1,3 @@
+Sistema;Equipamento;Periodo;Tolerancia;Tipo de Plano;Tipo de Atividades;Tempo
+MCH;M3-E;13;20;Preventiva Elétrica; Manutenção elétrica, medição de corrente, testes de gabarito, e manutenção condicional de componentes.;60
+MCH;M3-E;52;20;Man. Preventiva; Manutenção mecânica, troca de pinos, contrapinos, buchas , lubrificação da máquina de chave e parte do plano de manutenção elétrica.;75
