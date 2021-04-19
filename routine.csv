@@ -1,3 +1,7 @@
 Sistema;Equipamento;Periodo;Tolerancia;Tipo de Plano;Tipo de Atividades;Tempo
 MCH;M3-E;13;20;Preventiva Elétrica; Manutenção elétrica, medição de corrente, testes de gabarito, e manutenção condicional de componentes.;60
 MCH;M3-E;52;20;Man. Preventiva; Manutenção mecânica, troca de pinos, contrapinos, buchas , lubrificação da máquina de chave e parte do plano de manutenção elétrica.;75
+SINALIZAÇÃO;CDV DC e EC;26;20;Inspeção;CDV DC: Inspeção visual das conexões e juntas isolantes.Tempo alocado aqui é por CDV.;20
+SINALIZAÇÃO;CDV DC e EC;13;20;Inspeção;"CDV EC: Inspeção visual das conexões e juntas isolantes.Tempo alocado aqui é por CDV.";10
+SINALIZAÇÃO;CDV DC e EC;26;20;Man. Preventiva;CDV DC: Avaliar as conexões e juntas isolantes. Medição das correntes e tensões.;30
+SINALIZAÇÃO;DD;52;20;Inspeção;Inspeção de componente e conexões.;20
