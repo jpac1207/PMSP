@@ -3,7 +3,8 @@ from util.ChartUtil import ChartUtil
 from util.Utilities import Utilities
 from strategy.Budai import Budai
 
-T = 52  # planning horizon
+T = 104  # planning horizon
+GROUP_ACTIVITIES = True
 
 def main():
     routines = MaintenanceRoutineFactory.get_signaling_plans()
@@ -16,7 +17,7 @@ def main():
     #MaintenanceRoutineFactory.print_list(routines)
     #Utilities.reduce_routines(routines)
     
-    response = Budai(routines, T).min_to_max()    
+    response = Budai(routines, T, GROUP_ACTIVITIES).max_to_min()    
     print(response)
     work_labels = (list(map(lambda x: x.equipment + ':' + x.plan_type[0:11], routines)))
     time_labels = (['t' + str(i) for i in range(1, T + 1)])

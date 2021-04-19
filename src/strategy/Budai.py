@@ -1,10 +1,10 @@
 import numpy as np
 
-
 class Budai:
-    def __init__(self, routines, window_size):
+    def __init__(self, routines, window_size, group_activities=False):
         self.routines = routines
         self.window_size = window_size
+        self.group_activities = group_activities
         self.x = np.array([])
         self.c = np.array([])
         self.init_variables()
@@ -57,39 +57,51 @@ class Budai:
                         return False
         return True
 
-    def get_first_avaliable_period(self):
-        for t in range(0, self.window_size):
-            if 1 not in (self.x[:, t]):
+    def get_first_avaliable_period(self, routine):
+        for t in range(0, routine.interval_in_weeks - 1):
+            start_window = t
+            free_window = 0
+            for s in range(0, routine.frequency):
+                print(s)
+                if 1 in (self.x[:, start_window]):
+                    break
+                else:
+                    free_window = free_window + 1
+                start_window = start_window + (routine.interval_in_weeks - 1)
+            if free_window == routine.frequency:
                 return t
+        print("here")
         return -1
 
     def get_minor_cost_period(self, routine):
         costs = {}
-        for s in range(0, routine.interval_in_weeks -1):              
-            period = s 
-            for t in range(0, routine.frequency):               
+        for s in range(0, routine.interval_in_weeks - 1):
+            period = s
+            for t in range(0, routine.frequency):
                 self.add_occurrence(routine.index, period, routine.time_in_minutes)
-                period = period + routine.interval_in_weeks - 1            
-            cost = self.cost()
-            costs[s] = cost
-            period = s 
-            for t in range(0, routine.frequency):               
+                period = period + routine.interval_in_weeks - 1
+            costs[s] = self.cost()
+            # clear interval
+            period = s
+            for t in range(0, routine.frequency):
                 self.add_occurrence(routine.index, period, 0)
                 period = period + routine.interval_in_weeks - 1
-        
+
         minor_cost = min(costs, key=costs.get)
-        return minor_cost    
-    
-    #O(n(n + p)T 2)
+        return minor_cost
+
+    # O(n(n + p)T 2)
     def max_to_min(self):
         return self.frequency(True)
-    #O(n(n + p)T 2)
+
+    # O(n(n + p)T 2)
     def min_to_max(self):
         return self.frequency(False)
 
     def frequency(self, reverse):
-        sorted_routines = sorted(self.routines, key=lambda x: x.frequency, reverse=reverse)
-        # print(list(map(lambda x: x.to_string(), sorted_routines)))]
+        sorted_routines = sorted(
+            self.routines, key=lambda x: x.frequency, reverse=reverse
+        )
         # first item
         period = 0
         for t in range(0, sorted_routines[0].frequency):
@@ -97,11 +109,15 @@ class Budai:
                 sorted_routines[0].index, period, sorted_routines[0].time_in_minutes
             )
             period = period + sorted_routines[0].interval_in_weeks - 1
-      
-        for routine in sorted_routines[1:]:           
-            #period = self.get_first_avaliable_period()  
-            period = self.get_minor_cost_period(routine) 
-            for t in range(0, routine.frequency):               
+
+        for routine in sorted_routines[1:]:
+            period = (
+                self.get_minor_cost_period(routine)
+                if self.group_activities
+                else self.get_first_avaliable_period(routine)
+            )
+            for t in range(0, routine.frequency):
                 self.add_occurrence(routine.index, period, routine.time_in_minutes)
                 period = period + routine.interval_in_weeks - 1
+            # break
         return (self.x, self.c, self.check_constraints(), self.cost())
