@@ -11,7 +11,7 @@ class Budai:
 
     def init_variables(self):
         self.x = np.zeros((len(self.routines), self.window_size))
-        self.c = np.zeros((len(self.routines), self.window_size))
+        self.c = np.zeros(self.window_size)       
 
     def insert_test_occurrences(self):
         self.add_occurrence(0, 0, self.routines[0].time_in_minutes)
@@ -21,12 +21,16 @@ class Budai:
 
     def add_occurrence(self, row_index, collumn_index, cost):
         self.x[row_index][collumn_index] = 1
-        self.c[row_index][collumn_index] = cost
+        self.c[collumn_index] = self.c[collumn_index] + cost
+
+    def delete_occurrence(self, row_index, collumn_index, time_to_descrease):
+        self.x[row_index][collumn_index] = 0
+        self.c[collumn_index] = self.c[collumn_index] - time_to_descrease
 
     def cost(self):
         cost = 0
         for index in range(0, self.window_size):
-            cost = cost + max(self.c[:, index])
+            cost = cost + self.c[index]
         return cost
 
     def check_constraints(self):
@@ -62,7 +66,7 @@ class Budai:
             start_window = t
             free_window = 0
             for s in range(0, routine.frequency):
-                print(s)
+                #print(s)
                 if 1 in (self.x[:, start_window]):
                     break
                 else:
@@ -70,7 +74,7 @@ class Budai:
                 start_window = start_window + (routine.interval_in_weeks - 1)
             if free_window == routine.frequency:
                 return t
-        print("here")
+        #print("here")
         return -1
 
     def get_minor_cost_period(self, routine):
@@ -84,7 +88,7 @@ class Budai:
             # clear interval
             period = s
             for t in range(0, routine.frequency):
-                self.add_occurrence(routine.index, period, 0)
+                self.delete_occurrence(routine.index, period, routine.time_in_minutes)
                 period = period + routine.interval_in_weeks - 1
 
         minor_cost = min(costs, key=costs.get)
