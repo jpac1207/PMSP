@@ -29,10 +29,11 @@ class MaintenanceRoutineFactory:
 
     @staticmethod
     def print_list(routines):
+        print('----------------------------------------------{0} Routines----------------------------------------------'.format(len(routines)))
         for r in routines:
             print(
                 "[System: {0}; Equipment: {1}; Interval_Weeks: {2}; Tolerancy: {3}; Plan_Type: {4}; Description: {5};"
-                "Time_Minutes: {6}; Frequency: {7}]\n".format(
+                "Time_Minutes: {6}; Frequency: {7}]".format(
                     r.system,
                     r.equipment,
                     r.interval_in_weeks,

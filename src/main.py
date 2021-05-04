@@ -14,11 +14,12 @@ def main():
         routine.frequency = int(T / routine.interval_in_weeks)
         routine.index = index
         index = index + 1
-    #print(list(map(lambda x: x.to_string(), routines)))    
-    MaintenanceRoutineFactory.print_list(routines)
+     
+    #MaintenanceRoutineFactory.print_list(routines)
     #Utilities.reduce_routines(routines)
 
-    Pouryousef(2, routines, T, GROUP_ACTIVITIES)
+    multiple_routines = Utilities.multiple_copies_from_routines(2, routines)    
+    Pouryousef(2, multiple_routines, T, GROUP_ACTIVITIES)
     
     '''
     response = Budai(routines, T, GROUP_ACTIVITIES).max_to_min()   
