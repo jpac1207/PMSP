@@ -9,7 +9,7 @@ class Pouryousef:
         self.x = None
         self.c = None       
         self.init_variables()
-        self.insert_data()
+        #self.insert_data()
         print(self.check_constraints())
         #print(self.cost())
 
@@ -22,9 +22,13 @@ class Pouryousef:
 
     def insert_data(self):
         for i in range(0, self.segments_count):
-            for j in range(0, len(self.routines[i])):               
-                self.add_occurrence(i, j, 1, 10)
-            #self.add_occurrence(i, 0, 1, 10)
+            for j in range(0, len(self.routines[i])):
+                activity_count = 0
+                print(self.routines[i][j].frequency)
+                for k in range(0, self.routines[i][j].frequency):
+                    self.add_occurrence(i, j, activity_count, 10)
+                    activity_count = activity_count + self.routines[i][j].interval_in_weeks -1
+                print(self.x[i][j])
 
     def add_occurrence(self, segment, row_index, collumn_index, cost):
         self.x[segment][row_index][collumn_index] = 1
@@ -71,7 +75,6 @@ class Pouryousef:
                             return False
         return True
 
-    def check_constraints(self):
-        
+    def check_constraints(self):        
         return self.verify_first_and_second_constraint()
         

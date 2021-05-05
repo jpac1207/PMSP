@@ -4,7 +4,9 @@ from util.Utilities import Utilities
 from strategy.Budai import Budai
 from strategy.Pouryousef import Pouryousef
 
-T = 104  # planning horizon
+from heuristic.genetic.Genetic import Genetic
+
+T = 52  # planning horizon
 GROUP_ACTIVITIES = False
 
 def main():
@@ -19,7 +21,10 @@ def main():
     #Utilities.reduce_routines(routines)
 
     multiple_routines = Utilities.multiple_copies_from_routines(2, routines)    
-    Pouryousef(2, multiple_routines, T, GROUP_ACTIVITIES)
+    
+    Genetic(1, 1, multiple_routines, T)
+    
+    #Pouryousef(2, multiple_routines, T, GROUP_ACTIVITIES)
     
     '''
     response = Budai(routines, T, GROUP_ACTIVITIES).max_to_min()   
