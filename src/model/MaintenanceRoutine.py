@@ -12,6 +12,7 @@ class MaintenanceRoutine:
         self.system = system
         self.equipment = equipment
         self.interval_in_weeks = int(interval_in_weeks)
+        self.interval_in_days = self.interval_in_weeks * 7
         self.tolerancy = int(tolerancy)
         self.plan_type = plan_type
         self.description = description
