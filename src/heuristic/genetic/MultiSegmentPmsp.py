@@ -23,7 +23,7 @@ class MultiSegmentPmsp:
                 # First constraint
                 maintenance_activities_first_cycle = [
                     (k + 1)
-                    for k, x in enumerate(occurrences[0 : routine.interval_in_days])
+                    for k, x in enumerate(occurrences[0 : routine.interval_in_weeks])
                     if x == 1
                 ]
                 if len(maintenance_activities_first_cycle) != 1: 
@@ -43,7 +43,7 @@ class MultiSegmentPmsp:
                     for mindex in range(1, len(maintenance_activities)):
                         if maintenance_activities[mindex] - maintenance_activities[
                             mindex - 1
-                        ] != (routine.interval_in_days):
+                        ] != (routine.interval_in_weeks):
                             print('here3')
                             return False
         return True

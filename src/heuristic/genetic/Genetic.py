@@ -16,8 +16,9 @@ class Genetic:
             individual.cost = MultiSegmentPmsp.evaluate(individual)
             valid = MultiSegmentPmsp.check_constraints(individual)
             pop.append(individual)
-            print(individual.cost)
+            #print(individual.cost)
             if(not valid):
+                print('Wrong')
                 return individual
 
         return pop[0]

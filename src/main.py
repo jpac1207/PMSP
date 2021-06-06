@@ -6,17 +6,18 @@ from strategy.Pouryousef import Pouryousef
 
 from heuristic.genetic.Genetic import Genetic
 
-T = 365  # planning horizon
+T = 52  # planning horizon
 GROUP_ACTIVITIES = False
 NUMBER_OF_INDIVIDUALS = 100
 NUMBER_OF_SEGMENTS = 2
 
+NUMBER_OF_ITERATIONS = 1
 
 def main():
     routines = MaintenanceRoutineFactory.get_signaling_plans()
     index = 0
     for routine in routines:
-        routine.frequency = int(T / routine.interval_in_days)
+        routine.frequency = int(T / routine.interval_in_weeks)
         routine.index = index
         index = index + 1
 
@@ -26,14 +27,14 @@ def main():
     multiple_routines = Utilities.multiple_copies_from_routines(
         NUMBER_OF_SEGMENTS, routines
     )
-
+    
     best = Genetic(
-        NUMBER_OF_INDIVIDUALS, NUMBER_OF_SEGMENTS, 1, multiple_routines, T
+        NUMBER_OF_INDIVIDUALS, NUMBER_OF_SEGMENTS, NUMBER_OF_ITERATIONS, multiple_routines, T
     ).run()
     work_labels = list(
         map(
             lambda x: "{0}:{1} [{2};{3};{4}]".format(
-                x.equipment, x.plan_type[0:11], x.time_in_minutes, x.frequency, x.interval_in_days
+                x.equipment, x.plan_type[0:11], x.time_in_minutes, x.frequency, x.interval_in_weeks
             ),
             routines,
         )
