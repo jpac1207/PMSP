@@ -8,8 +8,8 @@ from heuristic.genetic.Genetic import Genetic
 
 T = 52  # planning horizon
 GROUP_ACTIVITIES = False
-NUMBER_OF_INDIVIDUALS = 100
-NUMBER_OF_SEGMENTS = 2
+NUMBER_OF_INDIVIDUALS = 2
+NUMBER_OF_SEGMENTS = 1
 
 NUMBER_OF_ITERATIONS = 1
 

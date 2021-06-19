@@ -19,10 +19,10 @@ class MaintenanceRoutineFactory:
             tolerancy = fields[3]
             plan_type = fields[4]
             work_type = fields[5]
-            times = fields[6]
+            time = fields[6]
             routines.append(
                 MaintenanceRoutine(
-                    system, equipment, period, tolerancy, plan_type, work_type, times
+                    system, equipment, period, tolerancy, plan_type, work_type, time
                 )
             )
         return routines
