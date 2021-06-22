@@ -20,7 +20,7 @@ class MultiSegmentPmsp:
         cost = 0
         for i in range(0, individual.number_of_segments):
             for j in range(0, individual.window_size):
-                print(individual.x[i][:, j])
+                #print(individual.x[i][:, j])
                 time_in_minutes_by_activity = np.array(list(map(lambda x: x.time_in_minutes, individual.segments_routines[i][:])))
                 cost = cost + (
                     max(individual.x[i][:, j]

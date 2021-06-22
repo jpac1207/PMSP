@@ -8,10 +8,10 @@ from heuristic.genetic.Genetic import Genetic
 
 T = 52  # planning horizon
 GROUP_ACTIVITIES = False
-NUMBER_OF_INDIVIDUALS = 2
-NUMBER_OF_SEGMENTS = 1
+NUMBER_OF_INDIVIDUALS = 30
+NUMBER_OF_SEGMENTS = 2
 
-NUMBER_OF_ITERATIONS = 1
+NUMBER_OF_ITERATIONS = 200
 
 def main():
     routines = MaintenanceRoutineFactory.get_signaling_plans()
@@ -56,7 +56,6 @@ def main():
     ChartUtil.heat_map(response[0], work_labels, time_labels, "Distribuição das Atividades: (Custo: {0} minutos)".format(response[3]))
     ChartUtil.heat_map(response[1], ['Custo de Manutenção'], time_labels, "Distribuição das Atividades: (Custo: {0} minutos)".format(response[3]), True)    
     """
-
 
 if __name__ == "__main__":
     main()
