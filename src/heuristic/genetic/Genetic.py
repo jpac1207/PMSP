@@ -2,8 +2,8 @@ import random
 import numpy as np
 
 from util.Utilities import Utilities
-from heuristic.genetic.Individual import Individual
-from heuristic.genetic.MultiSegmentPmsp import MultiSegmentPmsp
+from heuristic.common.Individual import Individual
+from heuristic.common.MultiSegmentPmsp import MultiSegmentPmsp
 
 LOG = False
 
@@ -15,6 +15,7 @@ class Genetic:
         number_of_iterations,
         routines,
         window_size,
+        leader = None
     ):
         self.number_of_individuals = number_of_individuals
         self.number_of_segments = number_of_segments
@@ -23,9 +24,11 @@ class Genetic:
         self.window_size = window_size
         self.crossover_rate = 0.6
         self.mutation_rate = 0.1
+        self.leader = leader
         self.pop = []
 
     def run(self):
+        best_individuals_by_iteration = []
         minToMaxIndividuals = None
         self.pop = self.create_population()
         for i in range(0, self.number_of_iterations):
@@ -33,10 +36,13 @@ class Genetic:
             self.mutation()
             minToMaxIndividuals = sorted(self.pop, key=lambda x: x.cost)
             # print("Costs: {}".format(list(map(lambda x: x.cost, minToMaxIndividuals))))
+            '''
             print(
                 "Best cost at iteration {}: {}".format(i, minToMaxIndividuals[0].cost)
             )
-        return minToMaxIndividuals[0]
+            '''
+            best_individuals_by_iteration.append(minToMaxIndividuals[0].cost)
+        return (minToMaxIndividuals[0], best_individuals_by_iteration)
 
     def create_population(self):
         pop = []
@@ -74,7 +80,7 @@ class Genetic:
             prob = random.uniform(0, 1)
             if prob < self.crossover_rate:
                 first_index = self.roulette(s)
-                individual = self.pop[first_index]
+                individual = self.pop[first_index] if self.leader == None else self.leader
                 second_index = 0
                 while True:
                     second_index = self.roulette(s)
