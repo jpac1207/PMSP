@@ -11,7 +11,7 @@ from heuristic.differential.Differential import Differential
 T = 52  # planning horizon
 GROUP_ACTIVITIES = False
 NUMBER_OF_INDIVIDUALS = 100
-NUMBER_OF_SEGMENTS = 3
+NUMBER_OF_SEGMENTS = 5
 NUMBER_OF_ITERATIONS = 100
 
 TEST_EXECUTIONS = 10
@@ -35,7 +35,47 @@ def main():
     best = None
     all_bests_by_iteration = []
     all_bests = []
+    
+    bestFromDE = None
+    bestFromGA = None
 
+    for i in range(0, TEST_EXECUTIONS):
+        bestFromGA = None
+        bestFromDE = None
+        bestsFromExecution = []
+        for j in range(0, NUMBER_OF_ITERATIONS):
+            bestFromGA, best_costs_by_iterationInGa = Genetic(
+                NUMBER_OF_INDIVIDUALS,
+                NUMBER_OF_SEGMENTS,
+                15,
+                multiple_routines,
+                T,
+                bestFromDE
+            ).run()
+
+            bestFromDE, best_costs_by_iteration = Differential(
+                NUMBER_OF_INDIVIDUALS,
+                NUMBER_OF_SEGMENTS,
+                15,
+                multiple_routines,
+                T,
+                bestFromGA
+            ).run()
+            print(bestFromGA.cost, bestFromDE.cost)
+            bestFromIteration = bestFromGA if bestFromGA.cost < bestFromDE.cost else bestFromDE
+            bestsFromExecution.append(bestFromIteration)
+           
+            if(bestFromGA.cost < bestFromDE.cost):
+                bestFromDE = bestFromGA
+            elif (bestFromDE.cost < bestFromGA.cost):
+                bestFromGA = bestFromDE
+       
+        all_bests_by_iteration.append(bestsFromExecution)
+        bestFromExecution = sorted(bestsFromExecution, key=lambda x: x.cost)
+        print("--> ", bestsFromExecution)
+        all_bests.append(bestFromExecution)        
+    
+    '''
     for i in range(0, TEST_EXECUTIONS):
         print("----- EXECUTION {} -----".format(i))
         bestFromExecution, best_costs_by_iteration = Genetic(
@@ -47,8 +87,8 @@ def main():
         ).run()
         all_bests.append(bestFromExecution)
         all_bests_by_iteration.append(best_costs_by_iteration)
-
     '''
+    '''    
     for i in range(0, TEST_EXECUTIONS):
         print("----- EXECUTION {} -----".format(i))
         bestFromExecution, best_costs_by_iteration = Differential(
@@ -60,17 +100,17 @@ def main():
         ).run()
         all_bests.append(bestFromExecution)
         all_bests_by_iteration.append(best_costs_by_iteration)
+    '''  
     '''
-    # print(all_bests_by_iteration)
     means = []
     for i in range(0, NUMBER_OF_ITERATIONS):
         all_bests_in_i_iteration = list(map(lambda x: x[i], all_bests_by_iteration))
         means.append(mean(all_bests_in_i_iteration))
-
-    best = sorted(all_bests, key=lambda x: x.cost)[0]
+    '''
+    #best = sorted(all_bests, key=lambda x: x.cost)[0]
     print('----------------------------------')
-    print(list(map(lambda x: x.cost, all_bests)))
-    print(means)
+    #print(list(map(lambda x: x.cost, all_bests)))
+    #print(means)
 
     work_labels = list(
         map(
@@ -91,7 +131,7 @@ def main():
         time_labels,
         "Distribuição das Atividades: (Custo: {0} minutos)".format(best.cost),
     )
-
+    
     # Pouryousef(2, multiple_routines, T, GROUP_ACTIVITIES)
 
     """

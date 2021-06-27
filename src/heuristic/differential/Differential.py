@@ -43,8 +43,8 @@ class Differential:
     def mutation(self):
         donators = []
         for i in range(0, self.number_of_individuals):
-            first_position = i if self.leader == None else self.leader
-            first_individual = self.pop[first_position]
+            first_position = i
+            first_individual = self.pop[first_position] if self.leader == None else self.leader
 
             second_position = None
             second_individual = None
@@ -52,7 +52,7 @@ class Differential:
                 second_position = random.randint(0, self.number_of_individuals - 1)
                 if second_position != first_position:
                     break
-            second_individual = self.pop[second_position]
+            second_individual = self.pop[second_position] if self.leader == None else self.leader
 
             third_position = None
             third_individual = None
